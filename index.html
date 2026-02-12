@@ -131,9 +131,21 @@
             display: grid;
             grid-template-columns: 2fr 1fr;
             gap: 10px;
-            height: 250px;
-            margin-bottom: 20px;
+            /* height: 250px; REMOVIDO: Altura fixa causava sobreposição */
+            grid-auto-rows: 125px; /* Define altura mínima por linha de imagem */
+            margin-bottom: 30px; /* Mais espaço abaixo das imagens */
+            width: 100%;
         }
+        
+        /* Responsividade para a galeria em telas muito pequenas */
+        @media (max-width: 400px) {
+            .profile-gallery {
+                grid-template-columns: 1fr;
+                grid-auto-rows: 200px;
+            }
+            .main-img { grid-row: span 1 !important; }
+        }
+
         .main-img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); grid-row: span 2; }
         .sub-img { width: 100%; height: 100%; object-fit: cover; border-radius: var(--radius); }
 
@@ -185,7 +197,7 @@
     <header>
         <!-- Alterado onclick para history.back() para usar o histórico do navegador -->
         <button id="backBtn" class="btn back-btn hidden" onclick="history.back()" aria-label="Voltar"><i class="fas fa-arrow-left"></i></button>
-        <div class="logo">🌿 EcoTour</div>
+        <div class="logo">🌿 </div>
         <div class="user-icon"><i class="fas fa-user"></i></div>
     </header>
 
@@ -197,24 +209,12 @@
         </div>
         
         <div class="container">
-            <h2>Destinos em Alta 🔥</h2>
+            <h2>Escolha seu destino</h2>
             <br>
             <div class="city-grid">
-                <div class="city-card btn" onclick="goToScreen('screen-categories', 'Capitólio - MG')">
-                    <img src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?auto=format&fit=crop&w=400&q=80" alt="Capitólio">
-                    <h3>Capitólio - MG</h3>
-                </div>
-                <div class="city-card btn" onclick="goToScreen('screen-categories', 'Bonito - MS')">
-                    <img src="https://images.unsplash.com/photo-1544636331-e26879cd4d9b?auto=format&fit=crop&w=400&q=80" alt="Bonito">
-                    <h3>Bonito - MS</h3>
-                </div>
-                <div class="city-card btn" onclick="goToScreen('screen-categories', 'Chapada - GO')">
-                    <img src="https://images.unsplash.com/photo-1588698947265-d055a40b8a36?auto=format&fit=crop&w=400&q=80" alt="Chapada">
-                    <h3>Chapada - GO</h3>
-                </div>
-                <div class="city-card btn" onclick="goToScreen('screen-categories', 'Ilhabela - SP')">
-                    <img src="https://images.unsplash.com/photo-1591739091630-f844b3c9598e?auto=format&fit=crop&w=400&q=80" alt="Ilhabela">
-                    <h3>Ilhabela - SP</h3>
+                <div class="city-card btn" onclick="goToScreen('screen-categories', 'Paraty - RJ')">
+                    <img src="https://villadelsol.com.br/wp-content/uploads/2024/12/Copy-of-dji_fly_20241120_104908_365_1732127675289_photo_optimized.jpg" alt="Paraty">
+                    <h3>Paraty - RJ</h3>
                 </div>
             </div>
         </div>
@@ -253,32 +253,29 @@
 
             <div class="guide-list">
                 <div class="guide-card btn" onclick="goToScreen('screen-profile')">
-                    <img src="https://images.unsplash.com/photo-1563297232-2a54332a6886?auto=format&fit=crop&w=300&q=80" class="guide-thumb" alt="Lancha">
+                    <img src="https://loveboat.com.br/wp-content/uploads/2024/06/Aluguel-de-Lanchas-e-Iates-Love-Boat-Rio-de-Janeiro-RJ-4-1024x516.jpg" class="guide-thumb" alt="Lancha">
                     <div class="guide-info">
                         <div class="guide-rating">⭐ 4.9 (120 avaliações)</div>
                         <h3>Lancha Trovão Azul</h3>
                         <p style="font-size: 0.9rem; color: #666;">Piloto: Cap. Roberto</p>
-                        <div class="guide-price">R$ 150,00 <span style="font-size:0.8rem; font-weight:normal; color:#666">/pessoa</span></div>
                     </div>
                 </div>
 
                 <div class="guide-card btn" onclick="goToScreen('screen-profile')">
-                    <img src="https://images.unsplash.com/photo-1544253935-46766023d143?auto=format&fit=crop&w=300&q=80" class="guide-thumb" alt="Lancha">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9G6V23J2_ArU9QGXdAOQoZjEPUzJ49JD0Eg&s" class="guide-thumb" alt="Lancha">
                     <div class="guide-info">
                         <div class="guide-rating">⭐ 5.0 (85 avaliações)</div>
                         <h3>Lancha Pérola Negra</h3>
                         <p style="font-size: 0.9rem; color: #666;">Piloto: Ana Souza</p>
-                        <div class="guide-price">R$ 180,00 <span style="font-size:0.8rem; font-weight:normal; color:#666">/pessoa</span></div>
                     </div>
                 </div>
 
                 <div class="guide-card btn" onclick="goToScreen('screen-profile')">
-                    <img src="https://images.unsplash.com/photo-1520645521318-f03a712f5195?auto=format&fit=crop&w=300&q=80" class="guide-thumb" alt="Lancha">
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0ZW8XTwrxn8WSmAhthON2Z9_NWhnPqNJ7dQ&s" class="guide-thumb" alt="Lancha">
                     <div class="guide-info">
                         <div class="guide-rating">⭐ 4.8 (210 avaliações)</div>
                         <h3>Escuna Mar Azul</h3>
                         <p style="font-size: 0.9rem; color: #666;">Piloto: Turismo Central</p>
-                        <div class="guide-price">R$ 90,00 <span style="font-size:0.8rem; font-weight:normal; color:#666">/pessoa</span></div>
                     </div>
                 </div>
             </div>
@@ -289,9 +286,9 @@
     <section id="screen-profile" class="screen hidden">
         <div class="container">
             <div class="profile-gallery">
-                <img src="https://images.unsplash.com/photo-1563297232-2a54332a6886?auto=format&fit=crop&w=800&q=80" class="main-img" alt="Foto principal">
-                <img src="https://images.unsplash.com/photo-1520645521318-f03a712f5195?auto=format&fit=crop&w=300&q=80" class="sub-img" alt="Foto detalhe">
-                <img src="https://images.unsplash.com/photo-1520699049698-acd2fcc51056?auto=format&fit=crop&w=300&q=80" class="sub-img" alt="Foto detalhe">
+                <img src="https://loveboat.com.br/wp-content/uploads/2024/06/Aluguel-de-Lanchas-e-Iates-Love-Boat-Rio-de-Janeiro-RJ-4-1024x516.jpg" class="main-img" alt="Foto principal">
+                <img src="https://oestemarine.com.br/wp-content/uploads/2024/04/focker-212-1.jpeg" class="sub-img" alt="Foto detalhe">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnPqYIJivtNvGWoQrxzJKolb-PQ-3b164giQ&s" class="sub-img" alt="Foto detalhe">
             </div>
 
             <div class="profile-details">
@@ -300,7 +297,6 @@
                         <h1>Lancha Trovão Azul</h1>
                         <p style="color: #666;">Guiado por <strong style="color:var(--text-dark)">Cap. Roberto</strong></p>
                     </div>
-                    <div class="guide-price">R$ 150</div>
                 </div>
                 <p style="margin: 10px 0; color: var(--secondary)">⭐ 4.9 • Super Host</p>
 
