@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EcoTour - Encontre seu Guia</title>
+    <!-- Font Awesome para ícones -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     
     <style>
-        /* --- VARIÁVEIS & RESET (Mantendo a identidade Natureza) --- */
+        /* --- VARIÁVEIS & RESET --- */
         :root {
             --bg-color: #f4f1de;
             --text-dark: #264653;
@@ -20,7 +21,7 @@
             --radius: 16px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
         body { background-color: var(--bg-color); color: var(--text-dark); padding-bottom: 80px; }
         
@@ -28,11 +29,20 @@
         ul { list-style: none; }
 
         /* --- UTILITÁRIOS --- */
-        .hidden { display: none !important; } /* Esconde as telas não ativas */
+        .hidden { display: none !important; } 
         .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
         .btn { cursor: pointer; transition: 0.3s; border: none; outline: none; }
+        
+        /* Animação suave entre telas */
+        .screen {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        /* --- HEADER SIMPLES --- */
+        /* --- HEADER --- */
         header {
             background: var(--text-dark);
             color: var(--white);
@@ -44,20 +54,25 @@
             align-items: center;
             box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
+        /* back-btn agora tem history.back() no onclick inline, mas estilizamos igual */
         .back-btn { font-size: 1.2rem; margin-right: 15px; color: var(--secondary); background: none; }
         .logo { font-size: 1.2rem; font-weight: bold; flex-grow: 1; }
-        .user-icon { width: 35px; height: 35px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .user-icon { width: 35px; height: 35px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
         /* --- TELA 1: HOME (ESCOLHER CIDADE) --- */
         .hero {
             text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(rgba(38,70,83,0.8), rgba(38,70,83,0.8)), url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1000&q=80');
+            padding: 60px 20px;
+            background: linear-gradient(rgba(38,70,83,0.7), rgba(38,70,83,0.9)), url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1000&q=80');
             background-size: cover;
+            background-position: center;
             color: white;
             border-radius: 0 0 30px 30px;
             margin-bottom: 30px;
+            box-shadow: var(--shadow);
         }
+        .hero h1 { font-size: 1.8rem; margin-bottom: 10px; }
+        
         .city-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -69,28 +84,31 @@
             overflow: hidden;
             box-shadow: var(--shadow);
             text-align: center;
+            transition: transform 0.2s;
         }
+        .city-card:hover { transform: translateY(-5px); }
         .city-card img { width: 100%; height: 120px; object-fit: cover; }
-        .city-card h3 { padding: 10px; font-size: 1rem; }
+        .city-card h3 { padding: 15px 10px; font-size: 1rem; color: var(--text-dark); }
 
         /* --- TELA 2: CATEGORIAS (TIPO DE PASSEIO) --- */
         .cat-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 2 por linha no mobile */
+            grid-template-columns: repeat(2, 1fr); 
             gap: 15px;
         }
         @media(min-width: 768px) { .cat-grid { grid-template-columns: repeat(4, 1fr); } }
 
         .cat-card {
             background: var(--white);
-            padding: 20px;
+            padding: 25px 15px;
             border-radius: var(--radius);
             text-align: center;
             box-shadow: var(--shadow);
             border: 2px solid transparent;
         }
         .cat-card:hover { border-color: var(--primary); transform: translateY(-3px); }
-        .cat-icon { font-size: 2rem; color: var(--primary); margin-bottom: 10px; }
+        .cat-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; }
+        .cat-card h3 { font-size: 1rem; color: var(--text-dark); }
 
         /* --- TELA 3: LISTA DE GUIAS --- */
         .guide-list { display: flex; flex-direction: column; gap: 20px; }
@@ -100,11 +118,13 @@
             display: flex;
             overflow: hidden;
             box-shadow: var(--shadow);
+            transition: transform 0.2s;
         }
+        .guide-card:hover { transform: scale(1.02); }
         .guide-thumb { width: 120px; object-fit: cover; }
-        .guide-info { padding: 15px; flex: 1; }
-        .guide-rating { color: var(--secondary); font-size: 0.9rem; margin-bottom: 5px; }
-        .guide-price { color: var(--accent); font-weight: bold; font-size: 1.1rem; }
+        .guide-info { padding: 15px; flex: 1; display: flex; flex-direction: column; justify-content: center; }
+        .guide-rating { color: var(--secondary); font-size: 0.9rem; margin-bottom: 5px; font-weight: bold; }
+        .guide-price { color: var(--accent); font-weight: bold; font-size: 1.2rem; margin-top: auto; }
         
         /* --- TELA 4: PERFIL DO GUIA (DETALHES) --- */
         .profile-gallery {
@@ -128,7 +148,7 @@
             margin-bottom: 20px;
             box-shadow: var(--shadow);
         }
-        .section-box h3 { margin-bottom: 10px; font-size: 1.1rem; border-bottom: 2px solid var(--bg-color); padding-bottom: 5px; }
+        .section-box h3 { margin-bottom: 15px; font-size: 1.1rem; border-bottom: 2px solid var(--bg-color); padding-bottom: 10px; }
 
         /* Floating Action Button (WhatsApp) */
         .fab-whatsapp {
@@ -150,22 +170,26 @@
             max-width: 400px;
             justify-content: center;
             z-index: 1000;
+            transition: background 0.3s;
         }
         .fab-whatsapp:hover { background-color: #1ebe57; }
 
         .social-links { display: flex; gap: 15px; margin-top: 10px; }
-        .social-btn { width: 40px; height: 40px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-dark); font-size: 1.2rem; }
+        .social-btn { width: 40px; height: 40px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--text-dark); font-size: 1.2rem; transition: 0.3s; }
+        .social-btn:hover { background: var(--primary); color: white; }
 
     </style>
 </head>
 <body>
 
     <header>
-        <button id="backBtn" class="btn back-btn hidden" onclick="goBack()"><i class="fas fa-arrow-left"></i></button>
+        <!-- Alterado onclick para history.back() para usar o histórico do navegador -->
+        <button id="backBtn" class="btn back-btn hidden" onclick="history.back()" aria-label="Voltar"><i class="fas fa-arrow-left"></i></button>
         <div class="logo">🌿 EcoTour</div>
         <div class="user-icon"><i class="fas fa-user"></i></div>
     </header>
 
+    <!-- TELA 1: HOME -->
     <section id="screen-home" class="screen">
         <div class="hero">
             <h1>Sua próxima aventura começa aqui</h1>
@@ -188,13 +212,18 @@
                     <img src="https://images.unsplash.com/photo-1588698947265-d055a40b8a36?auto=format&fit=crop&w=400&q=80" alt="Chapada">
                     <h3>Chapada - GO</h3>
                 </div>
+                <div class="city-card btn" onclick="goToScreen('screen-categories', 'Ilhabela - SP')">
+                    <img src="https://images.unsplash.com/photo-1591739091630-f844b3c9598e?auto=format&fit=crop&w=400&q=80" alt="Ilhabela">
+                    <h3>Ilhabela - SP</h3>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- TELA 2: CATEGORIAS -->
     <section id="screen-categories" class="screen hidden">
         <div class="container">
-            <h2 style="margin: 20px 0;">O que vamos fazer em <span id="city-name-display" style="color:var(--primary)">...</span>?</h2>
+            <h2 style="margin: 20px 0;">O que vamos fazer em <br><span id="city-name-display" style="color:var(--primary)">...</span>?</h2>
             
             <div class="cat-grid">
                 <div class="cat-card btn" onclick="goToScreen('screen-list', 'Passeios de Lancha')">
@@ -217,13 +246,14 @@
         </div>
     </section>
 
+    <!-- TELA 3: LISTA DE GUIAS -->
     <section id="screen-list" class="screen hidden">
         <div class="container">
             <h2 id="category-name-display" style="margin: 20px 0;">Guias Disponíveis</h2>
 
             <div class="guide-list">
                 <div class="guide-card btn" onclick="goToScreen('screen-profile')">
-                    <img src="https://images.unsplash.com/photo-1563297232-2a54332a6886?auto=format&fit=crop&w=300&q=80" class="guide-thumb">
+                    <img src="https://images.unsplash.com/photo-1563297232-2a54332a6886?auto=format&fit=crop&w=300&q=80" class="guide-thumb" alt="Lancha">
                     <div class="guide-info">
                         <div class="guide-rating">⭐ 4.9 (120 avaliações)</div>
                         <h3>Lancha Trovão Azul</h3>
@@ -233,7 +263,7 @@
                 </div>
 
                 <div class="guide-card btn" onclick="goToScreen('screen-profile')">
-                    <img src="https://images.unsplash.com/photo-1544253935-46766023d143?auto=format&fit=crop&w=300&q=80" class="guide-thumb">
+                    <img src="https://images.unsplash.com/photo-1544253935-46766023d143?auto=format&fit=crop&w=300&q=80" class="guide-thumb" alt="Lancha">
                     <div class="guide-info">
                         <div class="guide-rating">⭐ 5.0 (85 avaliações)</div>
                         <h3>Lancha Pérola Negra</h3>
@@ -241,16 +271,27 @@
                         <div class="guide-price">R$ 180,00 <span style="font-size:0.8rem; font-weight:normal; color:#666">/pessoa</span></div>
                     </div>
                 </div>
+
+                <div class="guide-card btn" onclick="goToScreen('screen-profile')">
+                    <img src="https://images.unsplash.com/photo-1520645521318-f03a712f5195?auto=format&fit=crop&w=300&q=80" class="guide-thumb" alt="Lancha">
+                    <div class="guide-info">
+                        <div class="guide-rating">⭐ 4.8 (210 avaliações)</div>
+                        <h3>Escuna Mar Azul</h3>
+                        <p style="font-size: 0.9rem; color: #666;">Piloto: Turismo Central</p>
+                        <div class="guide-price">R$ 90,00 <span style="font-size:0.8rem; font-weight:normal; color:#666">/pessoa</span></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
+    <!-- TELA 4: PERFIL DO GUIA -->
     <section id="screen-profile" class="screen hidden">
         <div class="container">
             <div class="profile-gallery">
-                <img src="https://images.unsplash.com/photo-1563297232-2a54332a6886?auto=format&fit=crop&w=800&q=80" class="main-img">
-                <img src="https://images.unsplash.com/photo-1520645521318-f03a712f5195?auto=format&fit=crop&w=300&q=80" class="sub-img">
-                <img src="https://images.unsplash.com/photo-1520699049698-acd2fcc51056?auto=format&fit=crop&w=300&q=80" class="sub-img">
+                <img src="https://images.unsplash.com/photo-1563297232-2a54332a6886?auto=format&fit=crop&w=800&q=80" class="main-img" alt="Foto principal">
+                <img src="https://images.unsplash.com/photo-1520645521318-f03a712f5195?auto=format&fit=crop&w=300&q=80" class="sub-img" alt="Foto detalhe">
+                <img src="https://images.unsplash.com/photo-1520699049698-acd2fcc51056?auto=format&fit=crop&w=300&q=80" class="sub-img" alt="Foto detalhe">
             </div>
 
             <div class="profile-details">
@@ -269,10 +310,10 @@
                     <span class="tag">🧊 Cooler Térmico</span>
                     <span class="tag">🚿 Chuveirinho</span>
                 </div>
-
+                
                 <div class="section-box">
                     <h3>Sobre o Passeio</h3>
-                    <p style="color: #555; font-size: 0.95rem;">
+                    <p style="color: #555; font-size: 0.95rem; line-height: 1.6;">
                         Venha curtir as melhores cachoeiras e cânions da região. Passeio com duração de 4 horas, paradas para banho e fotos incríveis. Inclui coletes salva-vidas e água mineral. Saída do pier principal.
                     </p>
                 </div>
@@ -296,7 +337,8 @@
                     </div>
                 </div>
 
-                <br><br> </div>
+                <br><br><br> <!-- Espaço para o botão flutuante -->
+            </div>
         </div>
 
         <a href="https://wa.me/" target="_blank" class="fab-whatsapp">
@@ -305,46 +347,72 @@
     </section>
 
     <script>
-        // Pilha de histórico para o botão voltar funcionar
-        let historyStack = ['screen-home'];
+        // --- LÓGICA DE NAVEGAÇÃO COM SUPORTE AO BOTÃO VOLTAR DO CELULAR ---
 
-        function goToScreen(screenId, dynamicText = null) {
+        // Função Central para atualizar a UI
+        function updateUI(screenId, dynamicText) {
             // Esconde todas as telas
             document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
             
-            // Mostra a tela desejada
-            document.getElementById(screenId).classList.remove('hidden');
-            
-            // Lógica do botão Voltar
-            document.getElementById('backBtn').classList.remove('hidden');
-            historyStack.push(screenId);
+            // Mostra a tela alvo, se existir. Se não, volta para home.
+            const target = document.getElementById(screenId);
+            if(target) {
+                target.classList.remove('hidden');
+            } else {
+                document.getElementById('screen-home').classList.remove('hidden');
+            }
+
+            // Gerencia botão voltar do Header
+            const backBtn = document.getElementById('backBtn');
+            if (screenId === 'screen-home') {
+                backBtn.classList.add('hidden');
+            } else {
+                backBtn.classList.remove('hidden');
+            }
+
+            // Scroll para o topo
             window.scrollTo(0, 0);
 
-            // Atualiza textos dinâmicos (simulação)
+            // Atualiza textos dinâmicos (Cidade ou Categoria selecionada)
             if(dynamicText) {
                 if(screenId === 'screen-categories') {
-                    document.getElementById('city-name-display').innerText = dynamicText;
+                    const el = document.getElementById('city-name-display');
+                    if(el) el.innerText = dynamicText;
                 } else if (screenId === 'screen-list') {
-                    document.getElementById('category-name-display').innerText = dynamicText;
+                    const el = document.getElementById('category-name-display');
+                    if(el) el.innerText = dynamicText;
                 }
             }
         }
 
-        function goBack() {
-            if (historyStack.length > 1) {
-                historyStack.pop(); // Remove a tela atual
-                const previousScreen = historyStack[historyStack.length - 1]; // Pega a anterior
-
-                // Troca a tela
-                document.querySelectorAll('.screen').forEach(el => el.classList.add('hidden'));
-                document.getElementById(previousScreen).classList.remove('hidden');
-
-                // Se voltou para a Home, esconde o botão voltar
-                if (previousScreen === 'screen-home') {
-                    document.getElementById('backBtn').classList.add('hidden');
-                }
+        // 1. Ouvinte para o botão "Voltar" do Navegador/Android/iOS
+        window.addEventListener('popstate', function(event) {
+            if (event.state && event.state.screenId) {
+                // Se existe um estado salvo, carregue-o
+                updateUI(event.state.screenId, event.state.dynamicText);
+            } else {
+                // Se não há estado (ex: voltou para o início absoluto), vá para a Home
+                updateUI('screen-home');
             }
+        });
+
+        // 2. Função de Navegação (Substitui a antiga)
+        function goToScreen(screenId, dynamicText = null) {
+            // Adiciona a nova tela ao histórico do navegador
+            // Parâmetros: (dados do estado, título não usado, URL opcional)
+            history.pushState({ screenId: screenId, dynamicText: dynamicText }, "", ""); 
+            
+            // Atualiza a tela visualmente
+            updateUI(screenId, dynamicText);
         }
+
+        // 3. Inicialização
+        // Substitui o estado inicial atual para garantir que seja "Home"
+        // Isso evita bugs se o usuário der refresh na página
+        window.addEventListener('load', () => {
+            history.replaceState({ screenId: 'screen-home' }, "", "");
+        });
+        
     </script>
 </body>
 </html>
